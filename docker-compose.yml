@@ -1,0 +1,60 @@
+services:
+
+  postgres:
+    image: postgres:16-alpine
+    container_name: sanyaah-postgres
+    restart: unless-stopped
+
+    env_file:
+      - ./backend/config/.env
+
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+    networks:
+      - sanyaah-network
+
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+
+    container_name: sanyaah-backend
+    restart: unless-stopped
+
+    env_file:
+      - ./backend/config/.env
+
+    depends_on:
+      - postgres
+
+    networks:
+      - sanyaah-network
+
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+
+    container_name: sanyaah-frontend
+    restart: unless-stopped
+
+    depends_on:
+      - backend
+
+    ports:
+      - "80:80"
+
+    networks:
+      - sanyaah-network
+
+
+volumes:
+  postgres_data:
+
+
+networks:
+  sanyaah-network:
+    driver: bridge

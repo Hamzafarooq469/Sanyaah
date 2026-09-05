@@ -1,0 +1,108 @@
+
+.mymosque-container {
+  max-width: 720px;
+  width: 100%;
+}
+
+.mymosque-header {
+  margin-bottom: 24px;
+}
+
+.mymosque-title {
+  margin: 0 0 4px 0;
+  font-size: 22px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.mymosque-subtitle {
+  margin: 0;
+  color: #64748b;
+  font-size: 14px;
+}
+
+/* Mosque Details Card */
+.mymosque-card {
+  background: #ffffff;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+  padding: 24px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+
+.mymosque-hero {
+  border-bottom: 1px solid #f1f5f9;
+  padding-bottom: 16px;
+  margin-bottom: 20px;
+}
+
+.mymosque-name {
+  margin: 0 0 4px 0;
+  font-size: 20px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.mymosque-area-badge {
+  display: inline-block;
+  font-size: 13px;
+  font-weight: 500;
+  color: #0284c7;
+  background-color: #f0f9ff;
+  border: 1px solid #bae6fd;
+  padding: 2px 10px;
+  border-radius: 9999px;
+}
+
+/* Two-column info grid */
+.mymosque-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 16px 24px;
+}
+
+.mymosque-info-item {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.mymosque-label {
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #64748b;
+}
+
+.mymosque-value {
+  font-size: 15px;
+  font-weight: 500;
+  color: #1e293b;
+}
+
+/* States */
+.mymosque-status {
+  padding: 24px;
+  border-radius: 8px;
+  font-size: 14px;
+  text-align: center;
+}
+
+.mymosque-loading {
+  color: #64748b;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+}
+
+.mymosque-error {
+  color: #dc2626;
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+}
+
+.mymosque-empty {
+  color: #64748b;
+  background: #f8fafc;
+  border: 1px dashed #cbd5e1;
+}

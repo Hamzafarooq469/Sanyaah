@@ -1,0 +1,129 @@
+.signout-container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f8fafc;
+  padding: 24px 16px;
+  font-family: system-ui, -apple-system, sans-serif;
+}
+
+.signout-card {
+  width: 100%;
+  max-width: 420px;
+  background: #ffffff;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+  padding: 36px 32px;
+  text-align: center;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+}
+
+.signout-status-loading {
+  color: #64748b;
+  font-size: 14px;
+  margin: 0;
+}
+
+.signout-icon-wrapper {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background-color: #fee2e2;
+  color: #ef4444;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 20px auto;
+}
+
+.signout-icon-muted {
+  background-color: #f1f5f9;
+  color: #64748b;
+}
+
+.signout-icon {
+  width: 28px;
+  height: 28px;
+}
+
+.signout-title {
+  font-size: 22px;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0 0 8px 0;
+}
+
+.signout-subtitle {
+  font-size: 14px;
+  color: #64748b;
+  margin: 0 0 28px 0;
+  line-height: 1.5;
+}
+
+.signout-subtitle strong {
+  color: #0f172a;
+}
+
+.signout-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.btn-confirm-signout {
+  width: 100%;
+  padding: 11px 16px;
+  background-color: #ef4444;
+  color: #ffffff;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+.btn-confirm-signout:hover {
+  background-color: #dc2626;
+}
+
+.btn-confirm-signout:disabled {
+  background-color: #fca5a5;
+  cursor: not-allowed;
+}
+
+.btn-cancel-signout {
+  width: 100%;
+  padding: 10px 16px;
+  background-color: #f1f5f9;
+  color: #334155;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+.btn-cancel-signout:hover {
+  background-color: #e2e8f0;
+}
+
+.btn-goto-signin {
+  display: block;
+  width: 100%;
+  padding: 11px 16px;
+  background-color: #0284c7;
+  color: #ffffff;
+  text-decoration: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  box-sizing: border-box;
+  transition: background-color 0.15s ease;
+}
+
+.btn-goto-signin:hover {
+  background-color: #0369a1;
+}

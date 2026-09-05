@@ -21,11 +21,11 @@ app.use(cors({
   })
 );
 
-app.get("/", (req, res) => {
-    res.send("Api is working")
-})
+app.use("/api/imam", require("./routes/imamRoutes"))
+app.use("/api/mosque", require("./routes/mosqueRoutes"))
+app.use("/api/announcement", require("./routes/announcementRoutes"))
 
-const PORT = process.env.PORT || 4000
+const PORT = process.env.PORT || 3000
 
 app.listen(PORT, () => {
     console.log(`Server is working on port no: ${PORT}`)

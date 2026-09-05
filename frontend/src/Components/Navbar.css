@@ -1,0 +1,66 @@
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 24px;
+  background-color: #0f172a;
+  border-bottom: 1px solid #1e293b;
+  font-family: system-ui, -apple-system, sans-serif;
+}
+
+.navbar-brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #ffffff;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 18px;
+  letter-spacing: -0.3px;
+}
+
+.navbar-brand-icon {
+  font-size: 20px;
+}
+
+.navbar-links {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.nav-link {
+  color: #94a3b8;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 8px 12px;
+  border-radius: 6px;
+  transition: all 0.15s ease;
+}
+
+.nav-link:hover {
+  color: #ffffff;
+  background-color: #1e293b;
+}
+
+.nav-link-highlight {
+  color: #ffffff;
+  background-color: #0284c7;
+  font-weight: 600;
+}
+
+.nav-link-highlight:hover {
+  background-color: #0369a1;
+  color: #ffffff;
+}
+
+.nav-link-danger {
+  color: #f87171;
+}
+
+.nav-link-danger:hover {
+  background-color: #3b1d1d;
+  color: #fca5a5;
+}
