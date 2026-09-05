@@ -3,7 +3,7 @@ import { useState, useEffect } from "react"
 import axios from "axios"
 import toast from "react-hot-toast"
 import { useSelector } from 'react-redux'
-import "./Overview.css"
+import "./OverView.css";
 
 const Overview = ({ mosque, onNavigateToCreate }) => {
     const [recentAnnouncements, setRecentAnnouncements] = useState([])
