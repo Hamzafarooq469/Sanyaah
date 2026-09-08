@@ -1,3 +1,4 @@
+
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Navbar from './Components/Navbar'
 import SignUp from './Pages/AuthPages/SignUp'

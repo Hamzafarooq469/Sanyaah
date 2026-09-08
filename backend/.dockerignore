@@ -6,8 +6,6 @@ node_modules/
 .env.local
 .env.*.local
 
-# Firebase credentials
-services/Firebase/firebaseCredentials.json
 
 # Logs
 npm-debug.log*

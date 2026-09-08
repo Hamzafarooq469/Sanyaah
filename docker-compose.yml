@@ -29,6 +29,10 @@ services:
     depends_on:
       - postgres
 
+    ports:
+      - "127.0.0.1:3000:3000"
+
+
     networks:
       - sanyaah-network
 
@@ -45,7 +49,7 @@ services:
       - backend
 
     ports:
-      - "80:80"
+      - "800:800"
 
     networks:
       - sanyaah-network
