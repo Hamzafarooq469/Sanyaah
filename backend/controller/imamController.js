@@ -1,36 +1,79 @@
 
 const db = require("../config/db")
 
+// const signUp = async (req, res) => {
+//     const { name } = req.body;  
+//     const { uid, email } = req.user;  
+
+//     if (!name) {
+//         return res.status(400).json("Please provide all required fields");
+//     }
+
+//     try {
+//         const checkExisting = await db.query(
+//             "SELECT id FROM imams WHERE email = $1 OR firebase_uid = $2",
+//             [email, uid]  
+//         );
+
+//         if (checkExisting.rows.length > 0) {
+//             return res.status(409).json("Imam already exists");
+//         }
+
+//         const result = await db.query(
+//             `INSERT INTO imams (firebase_uid, email, name) 
+//              VALUES ($1, $2, $3) 
+//              RETURNING id, firebase_uid, email, name, created_at`,
+//             [uid, email, name]
+//         );
+
+//         return res.status(201).json(result.rows[0]);
+
+//     } catch (error) {
+//         console.error("Signup error:", error);
+//         return res.status(500).json("Internal server error");
+//     }
+// };
+
 const signUp = async (req, res) => {
-    const { name } = req.body;  
-    const { uid, email } = req.user;  
+    const { name, email, password } = req.body;
 
-    if (!name) {
-        return res.status(400).json("Please provide all required fields");
-    }
+    if (!name || !email || !password)
+        return res.status(400).json({ message: "Please provide all required fields" });
 
+    const client = await db.connect();
     try {
-        const checkExisting = await db.query(
-            "SELECT id FROM imams WHERE email = $1 OR firebase_uid = $2",
-            [email, uid]  
+        await client.query("BEGIN");
+
+        const existing = await client.query(
+            "SELECT id FROM imams WHERE email = $1", [email]
         );
+        if (existing.rows.length > 0)
+            return res.status(409).json({ message: "Email already in use" });
 
-        if (checkExisting.rows.length > 0) {
-            return res.status(409).json("Imam already exists");
-        }
+        const firebaseUser = await admin.auth().createUser({ email, password, displayName: name });
 
-        const result = await db.query(
-            `INSERT INTO imams (firebase_uid, email, name) 
-             VALUES ($1, $2, $3) 
+        const result = await client.query(
+            `INSERT INTO imams (firebase_uid, email, name)
+             VALUES ($1, $2, $3)
              RETURNING id, firebase_uid, email, name, created_at`,
-            [uid, email, name]
+            [firebaseUser.uid, email, name]
         );
 
+        await client.query("COMMIT");
         return res.status(201).json(result.rows[0]);
 
     } catch (error) {
+        await client.query("ROLLBACK");
+
+        // If DB failed after Firebase user was created, clean up Firebase
+        if (error.firebaseUid) {
+            await admin.auth().deleteUser(error.firebaseUid).catch(() => {});
+        }
+
         console.error("Signup error:", error);
-        return res.status(500).json("Internal server error");
+        return res.status(500).json({ message: "Internal server error" });
+    } finally {
+        client.release();
     }
 };
 

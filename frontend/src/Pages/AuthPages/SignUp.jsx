@@ -27,28 +27,37 @@ const SignUp = () => {
 
         setLoading(true);
         try {
-            const result = await createUserWithEmailAndPassword(auth, email.trim(), password);
-            const user = result.user;
-            const idToken = await user.getIdToken();
+            // const result = await createUserWithEmailAndPassword(auth, email.trim(), password);
+            // const user = result.user;
+            // const idToken = await user.getIdToken();
 
-            await axios.post(
-                import.meta.env.VITE_API_URL_SIGNUP,
-                { name: name.trim() },
-                { headers: { Authorization: `Bearer ${idToken}` } }
-            );
+            // await axios.post(
+                // import.meta.env.VITE_API_URL_SIGNUP,
+                // { name: name.trim() },
+                // { headers: { Authorization: `Bearer ${idToken}` } }
+            // );
+
+            await axios.post(import.meta.env.VITE_API_URL_SIGNUP, {
+                    name: name.trim(),
+                    email: email.trim(),
+                    password,
+            });
 
             toast.success("Account created! Welcome aboard");
         } catch (error) {
-            console.error("Signup error:", error);
+            // console.error("Signup error:", error);
 
-            if (error.code === "auth/email-already-in-use") {
-                toast.error("Email already in use.");
-            } else {
-                toast.error(
-                    "Registration failed: " +
-                    (error.response?.data?.message || error.response?.data || error.message)
-                );
-            }
+            // if (error.code === "auth/email-already-in-use") {
+            //     toast.error("Email already in use.");
+            // } else {
+            //     toast.error(
+            //         "Registration failed: " +
+            //         (error.response?.data?.message || error.response?.data || error.message)
+            //     );
+            // }
+            toast.error(
+            error.response?.data?.message || error.message || "Registration failed"
+        );
         } finally {
             setLoading(false);
         }
