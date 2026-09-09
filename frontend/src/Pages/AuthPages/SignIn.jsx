@@ -53,6 +53,14 @@ const SignIn = () => {
       const provider = new GoogleAuthProvider();
       const result = await signInWithPopup(auth, provider);
       const user = result.user;
+
+      const isNewUser = result._tokenResponse?.isNewUser;
+      if(isNewUser) {
+        await user.delete()
+        toast.error("No account found. Please sign up first")
+        return;
+      }
+
       const idToken = await user.getIdToken();
 
       const response = await axios.post(

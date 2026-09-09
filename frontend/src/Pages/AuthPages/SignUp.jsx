@@ -27,34 +27,17 @@ const SignUp = () => {
 
         setLoading(true);
         try {
-            // const result = await createUserWithEmailAndPassword(auth, email.trim(), password);
-            // const user = result.user;
-            // const idToken = await user.getIdToken();
-
-            // await axios.post(
-                // import.meta.env.VITE_API_URL_SIGNUP,
-                // { name: name.trim() },
-                // { headers: { Authorization: `Bearer ${idToken}` } }
-            // );
 
             await axios.post(import.meta.env.VITE_API_URL_SIGNUP, {
                     name: name.trim(),
                     email: email.trim(),
                     password,
+            }, {
+                timeout: 10000  
             });
 
             toast.success("Account created! Welcome aboard");
         } catch (error) {
-            // console.error("Signup error:", error);
-
-            // if (error.code === "auth/email-already-in-use") {
-            //     toast.error("Email already in use.");
-            // } else {
-            //     toast.error(
-            //         "Registration failed: " +
-            //         (error.response?.data?.message || error.response?.data || error.message)
-            //     );
-            // }
             toast.error(
             error.response?.data?.message || error.message || "Registration failed"
         );
@@ -69,29 +52,32 @@ const SignUp = () => {
         try {
             const provider = new GoogleAuthProvider();
             const result = await signInWithPopup(auth, provider);
-
-            const user = result.user;
-            const idToken = await user.getIdToken();
+            firebaseUser = result.user;
+            const idToken = await firebaseUser.getIdToken();
 
             await axios.post(
-                import.meta.env.VITE_API_URL_SIGNUP,
-                { name: user.displayName || "" },
+                import.meta.env.VITE_API_URL_GOOGLE_SIGNUP,
+                {},
                 { headers: { Authorization: `Bearer ${idToken}` } }
             );
 
             toast.success("Account created! Welcome aboard");
         } catch (error) {
-            if (firebaseUser && error.response) {
-                await firebaseUser.delete().catch(() => {});
+            if (firebaseUser && !error.code?.startsWith("auth/")) {
+                await firebaseUser.delete().catch((e) => console.error("Firebase cleanup failed:", e));
             }
 
             if (error.code === "auth/popup-closed-by-user") {
                 toast.error("Popup closed before completing sign-up.");
+            } else if (error.code === "ECONNABORTED") {
+                toast.error("Request timed out, please try again");
+            } else if (!error.response) {
+                toast.error("Network error, please check your connection");
             } else {
                 toast.error(
                     error.response?.data?.message || error.message || "Google sign-up failed"
                 );
-        }
+            }
         } finally {
             setLoading(false);
         }

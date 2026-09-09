@@ -80,7 +80,7 @@ const signUp = async (req, res) => {
 };
 
 const googleSignUp = async (req, res) => {
-    const { uid, email, name } = req.user; // decoded from Firebase token by your middleware
+    const { uid, email, name } = req.user; 
 
     const client = await db.pool.connect();
     try {
@@ -93,6 +93,8 @@ const googleSignUp = async (req, res) => {
             await client.query("ROLLBACK");
             return res.status(409).json({ message: "Account already exists, please sign in" });
         }
+
+
 
         const result = await client.query(
             `INSERT INTO imams (firebase_uid, email, name)
