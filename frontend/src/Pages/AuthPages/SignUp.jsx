@@ -65,6 +65,7 @@ const SignUp = () => {
 
     const handleGoogleSignUp = async () => {
         setLoading(true);
+        let firebaseUser = null;
         try {
             const provider = new GoogleAuthProvider();
             const result = await signInWithPopup(auth, provider);
@@ -80,18 +81,17 @@ const SignUp = () => {
 
             toast.success("Account created! Welcome aboard");
         } catch (error) {
-            console.error("Google signup error:", error);
+            if (firebaseUser && error.response) {
+                await firebaseUser.delete().catch(() => {});
+            }
 
-            if (error.code === "auth/account-exists-with-different-credential") {
-                toast.error("An account already exists with this email.");
-            } else if (error.code === "auth/popup-closed-by-user") {
+            if (error.code === "auth/popup-closed-by-user") {
                 toast.error("Popup closed before completing sign-up.");
             } else {
                 toast.error(
-                    "Google sign-up failed: " +
-                    (error.response?.data?.message || error.response?.data || error.message)
+                    error.response?.data?.message || error.message || "Google sign-up failed"
                 );
-            }
+        }
         } finally {
             setLoading(false);
         }

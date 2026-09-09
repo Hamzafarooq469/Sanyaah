@@ -1,5 +1,7 @@
 
 const db = require("../config/db")
+const { getAuth } = require("../services/Firebase/firebaseAdmin");
+
 
 // const signUp = async (req, res) => {
 //     const { name } = req.body;  
@@ -40,7 +42,7 @@ const signUp = async (req, res) => {
     if (!name || !email || !password)
         return res.status(400).json({ message: "Please provide all required fields" });
 
-    const client = await db.connect();
+    const client = await db.pool.connect();
     try {
         await client.query("BEGIN");
 
@@ -50,7 +52,7 @@ const signUp = async (req, res) => {
         if (existing.rows.length > 0)
             return res.status(409).json({ message: "Email already in use" });
 
-        const firebaseUser = await admin.auth().createUser({ email, password, displayName: name });
+        const firebaseUser = await getAuth().createUser({ email, password, displayName: name });
 
         const result = await client.query(
             `INSERT INTO imams (firebase_uid, email, name)
@@ -71,6 +73,40 @@ const signUp = async (req, res) => {
         }
 
         console.error("Signup error:", error);
+        return res.status(500).json({ message: "Internal server error" });
+    } finally {
+        client.release();
+    }
+};
+
+const googleSignUp = async (req, res) => {
+    const { uid, email, name } = req.user; // decoded from Firebase token by your middleware
+
+    const client = await db.pool.connect();
+    try {
+        await client.query("BEGIN");
+
+        const existing = await client.query(
+            "SELECT id FROM imams WHERE firebase_uid = $1", [uid]
+        );
+        if (existing.rows.length > 0) {
+            await client.query("ROLLBACK");
+            return res.status(409).json({ message: "Account already exists, please sign in" });
+        }
+
+        const result = await client.query(
+            `INSERT INTO imams (firebase_uid, email, name)
+             VALUES ($1, $2, $3)
+             RETURNING id, firebase_uid, email, name, created_at`,
+            [uid, email, name || ""]
+        );
+
+        await client.query("COMMIT");
+        return res.status(201).json(result.rows[0]);
+
+    } catch (error) {
+        await client.query("ROLLBACK");
+        console.error("Google signup error:", error);
         return res.status(500).json({ message: "Internal server error" });
     } finally {
         client.release();
@@ -102,5 +138,6 @@ const signIn = async (req, res) => {
 
 module.exports = { 
     signUp, 
+    googleSignUp,
     signIn 
 }
