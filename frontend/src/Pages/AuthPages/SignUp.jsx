@@ -60,6 +60,7 @@ const SignUp = () => {
                 {},
                 { headers: { Authorization: `Bearer ${idToken}` } }
             );
+             await auth.signOut();
 
             toast.success("Account created! Welcome aboard");
         } catch (error) {

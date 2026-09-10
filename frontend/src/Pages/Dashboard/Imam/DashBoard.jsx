@@ -9,6 +9,7 @@ import Overview from "./OverView"
 import CreateAnnouncement from "./CreateAnnoucement"
 import ManageAnnouncements from "./ManageAnnouncements"
 import MyMosque from "./MyMosque"
+import Security from "./Security"
 
 import "./DashBoard.css"
 
@@ -52,7 +53,8 @@ const DashBoard = () => {
         { key: "overview", label: "Overview" },
         { key: "create", label: "New Announcement" },
         { key: "manage", label: "Manage Announcements" },
-        { key: "mosque", label: "Mosque Profile" }
+        { key: "mosque", label: "Mosque Profile" },
+        { key: "security", label: "Security" }
     ]
 
     return (
@@ -106,6 +108,8 @@ const DashBoard = () => {
                 {activeTab === "manage" && (
                     <ManageAnnouncements mosque={mosque} />
                 )}
+
+                {activeTab === "security" && <Security />}
 
                 {activeTab === "mosque" && <MyMosque />}
             </main>

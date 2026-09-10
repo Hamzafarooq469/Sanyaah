@@ -8,6 +8,13 @@ const imamDB = async () => {
             name VARCHAR(100) NOT NULL,
             email VARCHAR(100) NOT NULL UNIQUE,
             mosque_id INTEGER UNIQUE REFERENCES mosques(id),
+            totp_secret VARCHAR(255),
+            totp_enabled BOOLEAN DEFAULT FALSE,
+            passkey_credential_id TEXT,
+            passkey_public_key TEXT,
+            passkey_counter INTEGER DEFAULT 0,
+            passkey_enabled BOOLEAN DEFAULT FALSE,
+            passkey_challenge TEXT,
             created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
             updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
         )

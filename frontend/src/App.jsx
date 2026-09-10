@@ -7,6 +7,7 @@ import Home from './Pages/GeneralPages/Home'
 import SignOut from './Pages/AuthPages/SignOut'
 import MosqueSetup from './Pages/Dashboard/Imam/MosqueSetup'
 import DashBoard from './Pages/Dashboard/Imam/DashBoard'
+import ProtectedRoute from './Components/ProdectedRoute'
 
 function App() {
   return (
@@ -14,16 +15,25 @@ function App() {
       <Navbar />
 
       <Routes>
-        {/* Public Visitor Pages */}
-        <Route path="/" element={<Home />} />
-        <Route path="/signIn" element={<SignIn />} />
-        <Route path="/signUp" element={<SignUp />} />
-        <Route path="/signOut" element={<SignOut />} />
 
-        {/* Authenticated Imam Routes */}
-        <Route path="/mosqueSetup" element={<MosqueSetup />} />
-        <Route path="/dashBoard" element={<DashBoard />} />
-      </Routes>
+      <Route path="/" element={<Home />} />
+      <Route path="/signIn" element={<SignIn />} />
+      <Route path="/signUp" element={<SignUp />} />
+      <Route path="/signOut" element={<SignOut />} />
+
+      {/* Protected Routes */}
+      <Route path="/mosqueSetup" element={
+          <ProtectedRoute>
+              <MosqueSetup />
+          </ProtectedRoute>
+      } />
+      <Route path="/dashBoard" element={
+          <ProtectedRoute>
+              <DashBoard />
+          </ProtectedRoute>
+      } />
+            </Routes>
+
     </BrowserRouter>
   )
 }
